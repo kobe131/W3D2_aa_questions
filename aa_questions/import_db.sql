@@ -50,29 +50,33 @@ CREATE TABLE question_likes (
 INSERT INTO
 users (fname, lname)
 VALUES
-('Kobe', 'Ko'), ('Nigel', 'Rodrigues');
+('Kobe', 'Ko'), ('Nigel', 'Rodrigues'), ('App', 'Academy');
 
 INSERT INTO
 questions (title, body, author_id)
 VALUES
 ('NigelQuestion', 'NigelBody', (SELECT id FROM users WHERE fname = 'Nigel')), 
-('KobeQuestion', 'KobeBody', (SELECT id FROM users WHERE fname = 'Kobe'));
+('KobeQuestion', 'KobeBody', (SELECT id FROM users WHERE fname = 'Kobe')),
+('AppQuestion', 'AppBody', (SELECT id FROM users WHERE fname = 'Nigel'));
 
 INSERT INTO
 question_follows (users_id, questions_id)
 VALUES
 ((SELECT id FROM users WHERE fname = 'Nigel'), (SELECT id FROM questions WHERE title = 'NigelQuestion')), 
-((SELECT id FROM users WHERE fname = 'Kobe'), (SELECT id FROM questions WHERE title = 'KobeQuestion'));
+((SELECT id FROM users WHERE fname = 'Kobe'), (SELECT id FROM questions WHERE title = 'KobeQuestion')),
+((SELECT id FROM users WHERE fname = 'Nigel'), (SELECT id FROM questions WHERE title = 'AppQuestion'));
 
 INSERT INTO
 replies (body, questions_id, parents_reply_id, users_id)
 VALUES
 ('ReplyBody1', (SELECT id FROM questions WHERE title = 'NigelQuestion'), NULL, (SELECT id FROM users WHERE fname = 'Nigel')), 
-('ReplyBody2', (SELECT id FROM questions WHERE title = 'NigelQuestion'), (SELECT id FROM replies WHERE body = 'ReplyBody1'), (SELECT id FROM users WHERE fname = 'Kobe'));
+('ReplyBody2', (SELECT id FROM questions WHERE title = 'NigelQuestion'), 1, (SELECT id FROM users WHERE fname = 'Kobe')),
+('ReplyBody3', (SELECT id FROM questions WHERE title = 'KobeQuestion'), 1, (SELECT id FROM users WHERE fname = 'App'));
 
 INSERT INTO
 question_likes (users_id, questions_id)
 VALUES
 ((SELECT id FROM users WHERE fname = 'Nigel'), (SELECT id FROM questions WHERE title = 'NigelQuestion')), 
-((SELECT id FROM users WHERE fname = 'Kobe'), (SELECT id FROM questions WHERE title = 'NigelQuestion'));
+((SELECT id FROM users WHERE fname = 'Kobe'), (SELECT id FROM questions WHERE title = 'NigelQuestion')),
+((SELECT id FROM users WHERE fname = 'App'), (SELECT id FROM questions WHERE title = 'KobeQuestion'));
 
